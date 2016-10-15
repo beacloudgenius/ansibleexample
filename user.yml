@@ -24,7 +24,7 @@
     - name: Add SSH public key to user remote
       authorized_key:
         user=cloudgenius
-        key="{{ lookup('file', "~/.ssh/nilesh.pub") }}"
+        key="{{ lookup('file', "~/.ssh/id_rsa.pub") }}"
 
     - name: Disallow root SSH access
       lineinfile:
