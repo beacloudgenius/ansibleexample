@@ -1,0 +1,60 @@
+---
+
+- name: configure a user
+  hosts: ansibleexample
+  become: yes
+  gather_facts: False
+
+  vars:
+    # created with: openssl passwd -1 "123"
+    cloudgenius_password: $1$0C1NGJ5h$g8lRIJxNd7EqHyP23R0hH.
+
+  tasks:
+
+    - name: Add user cloudgenius
+      user: name=cloudgenius password={{cloudgenius_password}} shell=/bin/bash groups=root append=yes
+
+    - name: Add user cloudgenius to sudoers
+      lineinfile:
+        "dest=/etc/sudoers
+        regexp='^cloudgenius ALL'
+        line='cloudgenius ALL=(ALL) NOPASSWD: ALL'
+        state=present"
+
+    - name: Add SSH public key to user remote
+      authorized_key:
+        user=cloudgenius
+        key="{{ lookup('file', "~/.ssh/nilesh.pub") }}"
+
+    - name: Disallow root SSH access
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp="^PermitRootLogin"
+        line="PermitRootLogin no"
+        state=present
+      notify:
+        - restart ssh
+
+    - name: Disallow SSH password authentication
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp="^PasswordAuthentication"
+        line="PasswordAuthentication no"
+        state=present
+      notify:
+        - restart ssh
+
+    - name: Disallow SSH GSS API authentication
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp="^GSSAPIAuthentication"
+        line="GSSAPIAuthentication no"
+        state=present
+      notify:
+        - restart ssh
+
+  handlers:
+  - name: restart ssh
+    service:
+      name=ssh
+      state=restarted
