@@ -7,7 +7,7 @@
 
   vars:
     # created with: openssl passwd -1 "123"
-    cloudgenius_password: $1$0C1NGJ5h$g8lRIJxNd7EqHyP23R0hH.
+    cloudgenius_password: $1$XqaVaeON$R9dOb1bA159Dr0Hpdoi7j.
 
   tasks:
 
@@ -16,19 +16,20 @@
 
     - name: Add user cloudgenius to sudoers
       lineinfile:
-        "dest=/etc/sudoers
+        "path=/etc/sudoers
         regexp='^cloudgenius ALL'
         line='cloudgenius ALL=(ALL) NOPASSWD: ALL'
         state=present"
 
-    - name: Add SSH public key to user remote
+    - name: Add SSH public key to user cloudgenius in remote machine
       authorized_key:
         user=cloudgenius
         key="{{ lookup('file', "~/.ssh/id_rsa.pub") }}"
+        state=present
 
     - name: Disallow root SSH access
       lineinfile:
-        dest=/etc/ssh/sshd_config
+        path=/etc/ssh/sshd_config
         regexp="^PermitRootLogin"
         line="PermitRootLogin no"
         state=present
@@ -37,7 +38,7 @@
 
     - name: Disallow SSH password authentication
       lineinfile:
-        dest=/etc/ssh/sshd_config
+        path=/etc/ssh/sshd_config
         regexp="^PasswordAuthentication"
         line="PasswordAuthentication no"
         state=present
@@ -46,7 +47,7 @@
 
     - name: Disallow SSH GSS API authentication
       lineinfile:
-        dest=/etc/ssh/sshd_config
+        path=/etc/ssh/sshd_config
         regexp="^GSSAPIAuthentication"
         line="GSSAPIAuthentication no"
         state=present
