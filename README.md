@@ -1,3 +1,8 @@
+Clone this repository in the Cloud Genius workstation.
+
+    git clone https://github.com/beacloudgenius/ansibleexample.git
+    cd ansibleexample
+    
 Create a droplet in digital ocean and note its IP address and change `IP_ADDRESS` in the `hosts` file.
 
 #### First run of Ansible
