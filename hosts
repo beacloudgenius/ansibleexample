@@ -1,1 +1,12 @@
-ansibleexample  ansible_ssh_host=138.68.44.78     ansible_ssh_user=root          ansible_ssh_private_key_file=~/.ssh/id_rsa      ansible_python_interpreter=/usr/bin/python3
+# Remember to change IP_ADDRESS_GOES_HERE for `ansible_ssh_host` in the example below.
+
+# When you run this exercise the very first time, keep this line below
+
+ansibleexample  ansible_ssh_host=IP_ADDRESS_GOES_HERE     ansible_ssh_user=root          ansible_ssh_private_key_file=~/.ssh/id_rsa    ansible_python_interpreter=/usr/bin/python3
+
+
+# but note that the first run of this exercise disables the root user on the target.
+# Therefore, for the subsequent runs of ansible, please make sure to:
+# Comment the line above and uncomment this line, and then use it in subsequent ansible runs
+
+#ansibleexample  ansible_ssh_host=IP_ADDRESS_GOES_HERE     ansible_ssh_user=cloudgenius   ansible_ssh_private_key_file=~/.ssh/id_rsa   ansible_python_interpreter=/usr/bin/python3

@@ -7,9 +7,14 @@
 
   vars:
     # created with: openssl passwd -1 "123"
-    cloudgenius_password: $1$XqaVaeON$R9dOb1bA159Dr0Hpdoi7j.
+    cloudgenius_password: $1$Aj02So58$YWne25ZH80FNjvTM.AkMO/
 
   tasks:
+
+    - name: Install the package "sudo"
+      apt:
+        name: sudo
+        state: present
 
     - name: Add user cloudgenius
       user: name=cloudgenius password={{cloudgenius_password}} shell=/bin/bash groups=root append=yes
