@@ -52,7 +52,7 @@
 
     - name: Totally block root access
       file:
-        path=/root/authorized_keys
+        path=/root/.ssh/authorized_keys
         state=absent
     
     - name: Disallow SSH GSS API authentication
