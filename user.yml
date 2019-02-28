@@ -50,6 +50,11 @@
       notify:
         - restart ssh
 
+    - name: Totally block root access
+      file:
+        path: /root/authorized_keys
+        state: absent
+    
     - name: Disallow SSH GSS API authentication
       lineinfile:
         path=/etc/ssh/sshd_config
